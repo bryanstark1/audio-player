@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
+import AudioPlayer from './AudioPlayer';
+
 import audioFile from '../../../../../Desktop/tame_impala.mp3';
 
 export default function App() {
@@ -12,17 +14,6 @@ export default function App() {
     currentTime: null,
     isPlaying: false
   });
-
-  const playPauseClick = () => {
-    if (song) {
-      setSong({...song, isPlaying: !song.isPlaying});
-      if (song.isPlaying) {
-        song.file.pause();
-      } else {
-        song.file.play();
-      };
-    };
-  };
 
   // SET song.duration
   useEffect(() => {
@@ -72,16 +63,9 @@ export default function App() {
 
   return (
     <>
-      {/* <input type="file" id='audio-file' />
-      <label for="audio-file">Select Audio File</label> */}
-
-      {song.file &&
-        <>
-          <h3>{song.prettyName}</h3>
-          <h4>{song.currentTime} / {song.duration}</h4>
-        </>
-      }
-      <button id='play-pause' onClick={playPauseClick}>{song.isPlaying ? 'Pause' : 'Play'}</button>
+      <main id='audio-player-container'>
+        <AudioPlayer song={song} setSong={setSong} />
+      </main>
     </>
   )
 };
