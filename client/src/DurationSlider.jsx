@@ -1,45 +1,68 @@
-import {useEffect, useRef, useState} from 'react';
-
+import { useEffect, useRef } from 'react';
 
 export default function DurationSlider({ song, setSong, duration, currentTime }) {
-  const [timeChange, setTimeChange] = useState(null);
   const sliderRef = useRef(null);
   const containerRef = useRef(null);
 
+  // Update slider position based on current time
   useEffect(() => {
-    sliderRef.current.style.width = `${(parseInt(currentTime) / parseInt(duration)) * 100}%`;
-  }, [currentTime]);
+    if (sliderRef.current && duration > 0) {
+      sliderRef.current.style.width = `${(currentTime / duration) * 100}%`;
+    }
+  }, [currentTime, duration]); // Only update when currentTime or duration changes
 
+  // Handle drag movement and update the slider in real time
   const handleDrag = (e) => {
-    // Hotfix for dragging outside of the slider
-    if (e.screenX === 0) return;
-
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = Math.min(Math.max(e.clientX - rect.left, 0), rect.width);
-    const newProgress = x / rect.width;
-    console.log(newProgress)
-
-    setTimeChange(newProgress);
-  };
-
-  useEffect(() => {
-    if (timeChange) {
-      const newTime = duration * timeChange;
+    if (e.screenX !== 0) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = Math.min(Math.max(e.clientX - rect.left, 0), rect.width);
+      const newProgress = x / rect.width;
+  
+      // Update the slider width in real-time as user drags
+      sliderRef.current.style.width = `${newProgress * 100}%`;
+  
+      // setTimeChange(newProgress); // Update state for current playback position
+      const newTime = duration * newProgress;
       song.file.currentTime = newTime;
       setSong((prevState) => ({
         ...prevState,
         currentTime: newTime,
       }));
     };
-  }, [timeChange]);
+  };
+
+  // Handle clicking on the slider to seek to a specific time
+  const handleClick = (e) => {
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = Math.min(Math.max(e.clientX - rect.left, 0), rect.width);
+    const newProgress = x / rect.width;
+
+    // Seek to the clicked position
+    const newTime = duration * newProgress;
+    song.file.currentTime = newTime;
+
+    setSong((prevState) => ({
+      ...prevState,
+      currentTime: newTime,
+    }));
+
+    // Update the slider width based on the clicked position
+    sliderRef.current.style.width = `${newProgress * 100}%`;
+  };
 
   return (
     <>
-      <div id="duration-slider-container" ref={containerRef}>
+      <div id="duration-slider-container" ref={containerRef} onClick={handleClick}>
         <div id="duration-slider" ref={sliderRef}>
-          {currentTime > 0 ? <div id='slider-bubble' draggable onDrag={(e) => handleDrag(e)}></div> : ''}
+          {currentTime > 0 && 
+            <div
+              id="slider-bubble"
+              draggable
+              onDrag={(e) => handleDrag(e)} // Handle dragging of the bubble
+            ></div>
+          }
         </div>
       </div>
     </>
   );
-};
+}

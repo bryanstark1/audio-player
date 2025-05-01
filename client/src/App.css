@@ -6,6 +6,10 @@
   width: 100%;
 }
 
+#duration-slider {
+  transition: width 0.1s ease;
+}
+
 input#audio-file {
   display: none;
 }
