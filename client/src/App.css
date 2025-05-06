@@ -76,7 +76,7 @@ input#audio-file {
 }
 
 #controls-container svg {
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 #play-pause svg {
   height: 2em;
