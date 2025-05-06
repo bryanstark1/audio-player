@@ -11,10 +11,8 @@ input#audio-file {
 }
 
 #audio-player-container {
-  align-self: center;
-  align-items: center;
-  display: flex;
-  width: 40%;
+  width: 90%;
+  max-width: 500px;
 }
 
 #audio-player {
@@ -27,25 +25,74 @@ input#audio-file {
   border: 1px solid white;
   border-radius: 1rem;
   height: 25px;
+  overflow: hidden;
+  position: relative;
   width: 100%;
 }
 
 #duration-slider {
-  height: 100%;
-  border-radius: inherit;
   background-color: red;
+  border-radius: inherit;
+  height: 100%;
+  left: 0;
+  position: absolute;
   width: 0;
-  position: relative;
 }
 
 #slider-bubble {
-  width: 25px;
-  height: 100%;
-  display: block;
+  background: linear-gradient(145deg, #dcdcdc, #a9a9a9);
   border-radius: 100%;
-  background-color: blue;
-  /* position: absolute; */
-  /* right: 0; */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
   cursor: pointer;
+  display: block;
+  height: 100%;
   margin-left: auto;
+  width: 25px;
+}
+#slider-bubble:hover {
+  /* transform: scale(1.1); */
+}
+
+#song-container {
+  align-items: center;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 6fr 1fr
+}
+
+#controls-container {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 1rem;
+  padding: 0.5rem;
+}
+
+#controls-container button {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+#controls-container svg {
+  transition: all 0.2s ease-in-out;
+}
+#play-pause svg {
+  height: 2em;
+  width: 2em;
+}
+#play-pause svg:hover,
+#fast-forward svg:hover,
+#rewind svg:hover {
+  transform: scale(1.1);
+}
+#fast-forward svg:active,
+#rewind svg:active {
+  transform: scale(0.9);
+  transition: all 0.01s ease-in-out;
+}
+
+.time-container {
+  width: 50px;
 }

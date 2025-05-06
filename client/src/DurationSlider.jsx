@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
-export default function DurationSlider({ song, setSong, duration, currentTime }) {
-  const sliderRef = useRef(null);
+export default function DurationSlider({ audioFile, song, setSong, duration, currentTime }) {
   const containerRef = useRef(null);
+  const [sliderWidth, setSliderWidth] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
 
-  // Update slider position based on current time
   useEffect(() => {
-    if (sliderRef.current && duration > 0) {
-      sliderRef.current.style.width = `${(currentTime / duration) * 100}%`;
-    };
+    if (duration > 0) {
+      setSliderWidth((currentTime / duration) * 100);
+    }
   }, [currentTime, duration]);
 
   // Attach/Remove global event listeners
@@ -23,10 +22,10 @@ export default function DurationSlider({ song, setSong, duration, currentTime })
       const x = Math.min(Math.max(e.clientX - rect.left, 0), rect.width);
       const newProgress = x / rect.width;
 
-      sliderRef.current.style.width = `${newProgress * 100}%`;
+      setSliderWidth(`${newProgress * 100}%`);
 
       const newTime = duration * newProgress;
-      song.file.currentTime = newTime;
+      audioFile.currentTime = newTime;
       setSong((prevState) => ({
         ...prevState,
         currentTime: newTime,
@@ -58,14 +57,14 @@ export default function DurationSlider({ song, setSong, duration, currentTime })
     const newProgress = x / rect.width;
 
     const newTime = duration * newProgress;
-    song.file.currentTime = newTime;
+    audioFile.currentTime = newTime;
 
     setSong((prevState) => ({
       ...prevState,
       currentTime: newTime,
     }));
 
-    sliderRef.current.style.width = `${newProgress * 100}%`;
+    setSliderWidth(`${newProgress * 100}%`);
   };
 
   return (
@@ -74,7 +73,7 @@ export default function DurationSlider({ song, setSong, duration, currentTime })
       ref={containerRef}
       onClick={handleClick}
     >
-      <div id="duration-slider" ref={sliderRef}>
+      <div id="duration-slider" style={{ width: `${sliderWidth}%` }}>
         {duration > 0 && <div id="slider-bubble" onMouseDown={handleMouseDown}></div>}
       </div>
     </div>

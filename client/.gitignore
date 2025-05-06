@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# ALL mp3 files inside the public folder
+public/**/*.mp3

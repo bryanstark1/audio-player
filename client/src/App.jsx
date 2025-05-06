@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 import AudioPlayer from './AudioPlayer';
 
-import audioFile from '../../../../../Desktop/tame_impala.mp3';
 
 export default function App() {
+  const audioFile = '/tame_impala.mp3';
+  const audioRef = useRef(new Audio(audioFile));
   const [song, setSong] = useState({ 
-    file: new Audio(audioFile),
     fileName: audioFile.split('/').pop(),
     prettyName: audioFile.split('/').pop().split('.').shift().replace('_', ' ').toUpperCase(),
     duration: null,
@@ -17,7 +17,7 @@ export default function App() {
 
   // SET song.duration
   useEffect(() => {
-    const audio = song.file;
+    const audio = audioRef?.current;
     
     // When the audio metadata is loaded, set the duration
     const handleLoadedMetadata = () => {
@@ -35,12 +35,12 @@ export default function App() {
     return () => {
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
     };
-  }, [song.file]);
+  }, []);
 
 
   // UPDATE song.currentTime
   useEffect(() => {
-    const audio = song.file;
+    const audio = audioRef?.current;
 
     // Set up an event listener to track currentTime during playback
     const handleTimeUpdate = () => {
@@ -57,14 +57,14 @@ export default function App() {
     return () => {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
     };
-  }, [song.file]);
+  }, [audioRef?.current]);
 
   
 
   return (
     <>
       <main id='audio-player-container'>
-        <AudioPlayer song={song} setSong={setSong} />
+        <AudioPlayer audioFile={audioRef?.current} song={song} setSong={setSong} />
       </main>
     </>
   )

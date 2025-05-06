@@ -1,22 +1,48 @@
 import { useEffect } from 'react';
 import DurationSlider from './DurationSlider';
+import Time from './Time';
 
-export default function AudioPlayer({ song, setSong }) {
+import { BsPlayFill, BsPauseFill, BsRewindFill, BsFastForwardFill } from "react-icons/bs";
+
+
+export default function AudioPlayer({ audioFile, song, setSong }) {
 
   const playPauseClick = () => {
-    if (song) {
-      setSong({...song, isPlaying: !song.isPlaying});
-      if (song.isPlaying) {
-        song.file.pause();
+    setSong(prev => {
+      const updatedIsPlaying = !prev.isPlaying;
+      if (updatedIsPlaying) {
+        audioFile.play();
       } else {
-        song.file.play();
-      };
-    };
+        audioFile.pause();
+      }
+      return { ...prev, isPlaying: updatedIsPlaying };
+    });
+  };
+  
+
+  const fastForward = () => {
+    console.log('fast forward');
+  };
+
+  const rewind = () => {
+    console.log('rewind');
   };
 
   useEffect(() => {
-    if (song.currentTime === song.duration) setSong({...song, isPlaying: false});
-  }, [song.currentTime]);
+    if (song?.currentTime >= song?.duration) {
+      setSong(prev => ({ ...prev, isPlaying: false }));
+    }
+  }, [song?.currentTime, song?.duration]);
+
+  const convertSeconds = (totalSeconds) => {
+    if (isNaN(totalSeconds)) return '00:00';
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = Math.floor(totalSeconds % 60);
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  };
+
+  const formattedTime = convertSeconds(parseInt(song.currentTime));
+  const formattedDuration = convertSeconds(parseInt(song.duration));
   
 
   return (
@@ -25,14 +51,21 @@ export default function AudioPlayer({ song, setSong }) {
         {/* <input type="file" id='audio-file' />
         <label for="audio-file">Select Audio File</label> */}
 
-        {song.file &&
+        {audioFile &&
           <>
             <h3>{song.prettyName}</h3>
-            <DurationSlider song={song} setSong={setSong} duration={song.duration} currentTime={song.currentTime} />
-            <h4>{parseInt(song.currentTime)} / {parseInt(song.duration)}</h4>
+            <div id='song-container'>
+              <Time time={formattedTime} />
+              <DurationSlider audioFile={audioFile} song={song} setSong={setSong} duration={song.duration} currentTime={song.currentTime} />
+              <Time time={formattedDuration} />
+            </div>
           </>
         }
-        <button id='play-pause' onClick={playPauseClick}>{song.isPlaying ? 'Pause' : 'Play'}</button>
+        <div id="controls-container">
+          <button id='rewind' onClick={rewind} aria-label="Rewind"><BsRewindFill /></button>
+          <button id='play-pause' onClick={playPauseClick} disabled={song.duration === null} aria-label={song.isPlaying ? 'Pause' : 'Play'}>{song.isPlaying ? <BsPauseFill /> : <BsPlayFill />}</button>
+          <button id='fast-forward' onClick={fastForward} aria-label="Fast Forward"><BsFastForwardFill /></button>
+        </div>
       </div>
     </>
   );
