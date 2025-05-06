@@ -48,19 +48,12 @@ export default function AudioPlayer({ audioFile, song, setSong }) {
   return (
     <>
       <div id="audio-player">
-        {/* <input type="file" id='audio-file' />
-        <label for="audio-file">Select Audio File</label> */}
-
-        {audioFile &&
-          <>
-            <h3>{song.prettyName}</h3>
-            <div id='song-container'>
-              <Time time={formattedTime} />
-              <DurationSlider audioFile={audioFile} song={song} setSong={setSong} duration={song.duration} currentTime={song.currentTime} />
-              <Time time={formattedDuration} />
-            </div>
-          </>
-        }
+        <h3>{song.prettyName}</h3>
+        <div id='song-container'>
+          <Time time={formattedTime} />
+          <DurationSlider audioFile={audioFile} song={song} setSong={setSong} duration={song.duration} currentTime={song.currentTime} />
+          <Time time={formattedDuration} />
+        </div>
         <div id="controls-container">
           <button id='rewind' onClick={rewind} aria-label="Rewind"><BsRewindFill /></button>
           <button id='play-pause' onClick={playPauseClick} disabled={song.duration === null} aria-label={song.isPlaying ? 'Pause' : 'Play'}>{song.isPlaying ? <BsPauseFill /> : <BsPlayFill />}</button>

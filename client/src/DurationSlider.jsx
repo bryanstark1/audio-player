@@ -25,7 +25,7 @@ export default function DurationSlider({ audioFile, song, setSong, duration, cur
       setSliderWidth(`${newProgress * 100}%`);
 
       const newTime = duration * newProgress;
-      audioFile.currentTime = newTime;
+      audioFile && (audioFile.currentTime = newTime);
       setSong((prevState) => ({
         ...prevState,
         currentTime: newTime,
@@ -57,7 +57,7 @@ export default function DurationSlider({ audioFile, song, setSong, duration, cur
     const newProgress = x / rect.width;
 
     const newTime = duration * newProgress;
-    audioFile.currentTime = newTime;
+    audioFile && (audioFile.currentTime = newTime);
 
     setSong((prevState) => ({
       ...prevState,
@@ -74,7 +74,7 @@ export default function DurationSlider({ audioFile, song, setSong, duration, cur
       onClick={handleClick}
     >
       <div id="duration-slider" style={{ width: `${sliderWidth}%` }}>
-        {duration > 0 && <div id="slider-bubble" onMouseDown={handleMouseDown}></div>}
+        <div id="slider-bubble" onMouseDown={handleMouseDown} aria-disabled={audioFile ? false : true}></div>
       </div>
     </div>
   );

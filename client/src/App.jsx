@@ -8,8 +8,8 @@ export default function App() {
   const audioFile = '/tame_impala.mp3';
   const audioRef = useRef(new Audio(audioFile));
   const [song, setSong] = useState({ 
-    fileName: audioFile.split('/').pop(),
-    prettyName: audioFile.split('/').pop().split('.').shift().replace('_', ' ').toUpperCase(),
+    fileName: audioFile?.split('/').pop(),
+    prettyName: audioFile?.split('/').pop().split('.').shift().replace('_', ' ').toUpperCase(),
     duration: null,
     currentTime: null,
     isPlaying: false
@@ -23,17 +23,17 @@ export default function App() {
     const handleLoadedMetadata = () => {
       setSong((prevState) => ({
         ...prevState,
-        duration: audio.duration,
+        duration: audio?.duration,
         currentTime: 0
       }));
     };
 
     // Attach the event listener for when metadata is loaded
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audio?.addEventListener('loadedmetadata', handleLoadedMetadata);
 
     // Cleanup the event listener when the component unmounts
     return () => {
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audio?.removeEventListener('loadedmetadata', handleLoadedMetadata);
     };
   }, []);
 
@@ -51,11 +51,11 @@ export default function App() {
     };
 
     // Attach event listener for when currentTime is changing
-    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio?.addEventListener('timeupdate', handleTimeUpdate);
 
     // Cleanup event listener on component unmount
     return () => {
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio?.removeEventListener('timeupdate', handleTimeUpdate);
     };
   }, [audioRef?.current]);
 

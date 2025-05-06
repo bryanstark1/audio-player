@@ -49,8 +49,12 @@ input#audio-file {
   margin-left: auto;
   width: 25px;
 }
+#slider-bubble[aria-disabled="true"] {
+  background: linear-gradient(145deg, #dcdcdc, #a9a9a9);
+  cursor: unset;
+}
 #slider-bubble:hover {
-  /* transform: scale(1.1); */
+  
 }
 
 #song-container {
