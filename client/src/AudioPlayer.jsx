@@ -34,15 +34,15 @@ export default function AudioPlayer({ audioFile, song, setSong }) {
     }
   }, [song?.currentTime, song?.duration]);
 
-  const convertSeconds = (totalSeconds) => {
-    if (isNaN(totalSeconds)) return '00:00';
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = Math.floor(totalSeconds % 60);
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  };
+  // const convertSeconds = (totalSeconds) => {
+  //   if (isNaN(totalSeconds)) return '00:00';
+  //   const minutes = Math.floor(totalSeconds / 60);
+  //   const seconds = Math.floor(totalSeconds % 60);
+  //   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  // };
 
-  const formattedTime = convertSeconds(parseInt(song.currentTime));
-  const formattedDuration = convertSeconds(parseInt(song.duration));
+  // const formattedTime = convertSeconds(parseInt(song.currentTime));
+  // const formattedDuration = convertSeconds(parseInt(song.duration));
   
 
   return (
@@ -50,9 +50,9 @@ export default function AudioPlayer({ audioFile, song, setSong }) {
       <div id="audio-player">
         <h3>{song.prettyName}</h3>
         <div id='song-container'>
-          <Time time={formattedTime} />
+          <Time time={song.currentTime} duration={song.duration} type={'start'} />
           <DurationSlider audioFile={audioFile} song={song} setSong={setSong} duration={song.duration} currentTime={song.currentTime} />
-          <Time time={formattedDuration} />
+          <Time time={song.currentTime} duration={song.duration} type={'end'} />
         </div>
         <div id="controls-container">
           <button id='rewind' onClick={rewind} aria-label="Rewind"><BsRewindFill /></button>

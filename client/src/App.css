@@ -100,3 +100,7 @@ input#audio-file {
 .time-container {
   width: 50px;
 }
+
+.time {
+  cursor: default;
+}
