@@ -71,7 +71,10 @@ export default function DurationSlider({ audioFile, song, setSong, duration, cur
     <div
       id="duration-slider-container"
       ref={containerRef}
-      onClick={handleClick}
+      onMouseDown={(e) => {
+        handleClick(e);    // Move the bubble to where user clicked
+        handleMouseDown(e); // Start the drag
+      }}
     >
       <div id="duration-slider" style={{ width: `${sliderWidth}%` }}>
         <div id="slider-bubble" onMouseDown={handleMouseDown} aria-disabled={audioFile ? false : true}></div>
