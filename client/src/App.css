@@ -104,3 +104,7 @@ input#audio-file {
 .time {
   cursor: default;
 }
+
+.time.end {
+  text-align: right;
+}
