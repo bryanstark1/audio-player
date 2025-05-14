@@ -13,6 +13,7 @@ input#audio-file {
 #audio-player-container {
   width: 90%;
   max-width: 500px;
+  cursor: pointer;
 }
 
 #audio-player {
