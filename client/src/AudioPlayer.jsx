@@ -32,27 +32,6 @@ export default function AudioPlayer({ audioFile, song, setSong }) {
       setSong(prev => ({ ...prev, isPlaying: false }));
     }
   }, [song?.currentTime, song?.duration]);
-
-  useEffect(() => {
-    let interval = null;
-  
-    if (song.isPlaying) {
-      interval = setInterval(() => {
-        setSong(prev => {
-          if (!audioFile) return prev;
-          return {
-            ...prev,
-            currentTime: audioFile.currentTime
-          };
-        });
-      }, 500); // update every half second
-    } else {
-      clearInterval(interval);
-    }
-  
-    return () => clearInterval(interval);
-  }, [song.isPlaying, audioFile, setSong]);
-  
   
 
   return (
