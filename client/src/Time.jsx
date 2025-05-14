@@ -40,7 +40,7 @@ export default function Time({ time, duration, type }) {
   return (
     <>
       <div className="time-container">
-        <h4 className="time" onClick={handleClick}>{timeType === 'time-remaining' ? '-' : ''}{type === 'start' ? convertSeconds(parseInt(time)) : convertSeconds(parseInt(durationToDisplay))}</h4>
+        <h4 className={`time ${type === 'start' ? 'start' : 'end'}`} onClick={handleClick}>{timeType === 'time-remaining' ? '-' : ''}{type === 'start' ? convertSeconds(parseInt(time)) : convertSeconds(parseInt(durationToDisplay))}</h4>
       </div>
     </>
   );
