@@ -105,6 +105,10 @@ input#audio-file {
   cursor: default;
 }
 
+.time::selection {
+  background-color: transparent;
+}
+
 .time.end {
   text-align: right;
 }
