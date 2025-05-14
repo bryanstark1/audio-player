@@ -19,7 +19,6 @@ export default function AudioPlayer({ audioFile, song, setSong }) {
     });
   };
   
-
   const fastForward = () => {
     console.log('fast forward');
   };
@@ -34,15 +33,26 @@ export default function AudioPlayer({ audioFile, song, setSong }) {
     }
   }, [song?.currentTime, song?.duration]);
 
-  // const convertSeconds = (totalSeconds) => {
-  //   if (isNaN(totalSeconds)) return '00:00';
-  //   const minutes = Math.floor(totalSeconds / 60);
-  //   const seconds = Math.floor(totalSeconds % 60);
-  //   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  // };
-
-  // const formattedTime = convertSeconds(parseInt(song.currentTime));
-  // const formattedDuration = convertSeconds(parseInt(song.duration));
+  useEffect(() => {
+    let interval = null;
+  
+    if (song.isPlaying) {
+      interval = setInterval(() => {
+        setSong(prev => {
+          if (!audioFile) return prev;
+          return {
+            ...prev,
+            currentTime: audioFile.currentTime
+          };
+        });
+      }, 500); // update every half second
+    } else {
+      clearInterval(interval);
+    }
+  
+    return () => clearInterval(interval);
+  }, [song.isPlaying, audioFile, setSong]);
+  
   
 
   return (
