@@ -27,6 +27,7 @@ export default function AudioPlayer({ audioFile, song, setSong }) {
     console.log('rewind');
   };
 
+  // When song finishes playing
   useEffect(() => {
     if (song?.currentTime >= song?.duration) {
       setSong(prev => ({ ...prev, isPlaying: false }));
