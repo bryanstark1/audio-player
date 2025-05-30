@@ -2,7 +2,13 @@
 
 ## To-Do
 - Fast Forward & Rewind
+- Volume Control – Slider or icon-based (mute/unmute)
+- Playback Speed Control – Allow users to play at 0.5x, 1x, 1.5x, 2x speeds
+- Loop Mode – Loop the track or a specific portion
+- Shuffle (for playlists) – Randomize playback order.
+- A-B Repeat – Let users loop a specific section of a track
 - Add Upload capability
+  - Drag & Drop
 - Playlists?
 - Style
 
